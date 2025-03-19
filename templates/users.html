@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seznam uživatelů</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        table {
+            width: 60%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        .admin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Piškvorky</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Domů</a>
+        <a href="{{ url_for('login') }}">Přihlášení</a>
+        <a href="{{ url_for('register') }}">Registrace</a>
+        <a href="{{ url_for('users_page') }}">Uživatelé</a>
+    </nav>
+
+    <h2>Seznam uživatelů</h2>
+
+    {% if users %}
+        <table>
+            <tr>
+                <th>Uživatelské jméno</th>
+                <th>Počet her</th>
+                <th>Počet výher</th>
+                {% if is_admin %}<th>Akce</th>{% endif %}
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.pocet_her }}</td>
+                <td>{{ user.pocet_vyher }}</td>
+                {% if is_admin %}
+                <td class="admin-actions">
+                    <form method="post" action="{{ url_for('update_user') }}">
+                        <input type="hidden" name="user_id" value="{{ user.ID }}">
+                        <input type="text" name="new_username" placeholder="Nové jméno" required>
+                        <button type="submit">Změnit</button>
+                    </form>
+                    <form method="post" action="{{ url_for('delete_user') }}">
+                        <input type="hidden" name="user_id" value="{{ user.ID }}">
+                        <button type="submit" onclick="return confirm('Opravdu chcete smazat uživatele?')">Smazat</button>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Žádní uživatelé zatím nejsou registrovaní.</p>
+    {% endif %}
+
+</body>
+</html>
