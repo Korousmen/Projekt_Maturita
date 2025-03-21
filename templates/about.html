@@ -3,83 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Přihlášení - Piškvorky</title>
+    <title>O projektu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
         }
         .container {
-            margin-top: 50px;
+            width: 80%;
+            margin: auto;
             background: white;
             padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            margin-bottom: 20px;
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 10px;
         }
-        .nav-buttons {
-            margin-bottom: 20px;
-        }
-        .nav-buttons a {
-            text-decoration: none;
-            padding: 10px 15px;
-            margin: 5px;
-            background: #007bff;
-            color: white;
-            border-radius: 5px;
-            display: inline-block;
-        }
-        form {
+        nav {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        label, input {
-            margin: 5px;
-        }
-        input {
-            padding: 8px;
-            width: 200px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            background: #28a745;
+        nav a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background: #007BFF;
             color: white;
-            border: none;
             border-radius: 5px;
-            cursor: pointer;
+            transition: 0.3s;
         }
-        button:hover {
-            background: #218838;
+        nav a:hover {
+            background: #0056b3;
+        }
+        hr {
+            margin: 20px 0;
+            border: none;
+            height: 2px;
+            background: #ccc;
         }
     </style>
 </head>
 <body>
-
-    <h1>Piškvorky</h1>
-    <div class="nav-buttons">
-        <a href="/home">Domů</a>
-        <a href="/register">Registrace</a>
-        <a href="/about">O projektu</a>
-    </div>
-
     <div class="container">
-        <h2>Přihlášení</h2>
-        <form action="/login_validation" method="POST">
-            <label for="username">Uživatelské jméno:</label>
-            <input type="text" id="username" name="username" required>
+        <h1>Piškvorky</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Domů</a>
+            <a href="{{ url_for('login_page') }}">Přihlášení</a>
+            <a href="{{ url_for('register_user') }}">Registrace</a>
+        </nav>
+        
+        <hr>
+        
+        <h2>O projektu</h2>
+        
+        <p><strong>Odkaz na GitHub:</strong> <a href="https://github.com/Korousmen/Projekt_Maturita" target="_blank">https://github.com/Korousmen/Projekt_Maturita</a></p>
+        <hr>
 
-            <label for="password">Heslo:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Přihlásit se</button>
-        </form>
+        <h3>📌 Stručný popis programů:</h3>
+        
+        <h4>1️⃣ create.py </h4>
+        <p>Tento program inicializuje databázi pro aplikaci Piškvorky. Vytváří tabulky pro uživatele a jejich role.</p>
+        
+        <h5>🔹 Hlavní funkce:</h5>
+        <ul>
+            <li><strong>create()</strong> – vytvoří tabulku <em>uziv</em> s uživatelskými údaji (ID, jméno, e-mail, heslo, typ uživatele, počet her a výher).</li>
+            <li><strong>create2()</strong> – vytvoří tabulku <em>uziv_type</em> s typy uživatelů (<em>admin</em>, <em>hráč</em>).</li>
+            <li><strong>insert_user_types()</strong> – vloží výchozí role uživatelů do tabulky.</li>
+        </ul>
+        
+        <hr>
+        
+        <h4>2️⃣ main.py</h4>
+        <p>Tento program umožňuje registraci a přihlášení uživatelů v aplikaci Piškvorky. Používá <strong>bcrypt</strong> pro hashování hesel a <strong>mysql.connector</strong> pro komunikaci s databází.</p>
+        
+        <h5>🔹 Hlavní funkce:</h5>
+        <ul>
+            <li><strong>password_to_hash(plain_password)</strong> – převede heslo na bezpečný hash.</li>
+            <li><strong>insert_regr_user(username, email, password)</strong> – uloží nového uživatele do databáze.</li>
+            <li><strong>get_hash_from_database(username)</strong> – načte hash hesla daného uživatele.</li>
+            <li><strong>login_authentication(username, password)</strong> – ověří přihlašovací údaje a spustí hru po úspěšném přihlášení.</li>
+        </ul>
+        
+        <hr>
+        
+        <h4>3️⃣ pisk.py</h4>
+        <p>Tento program spravuje databázi uživatelů pro herní aplikaci. Obsahuje tabulky pro uživatele a jejich role a umožňuje registraci a přihlášení.</p>
+    
+        <p>Tento program je implementací hry <strong>Piškvorky</strong> v Pythonu s grafickým rozhraním pomocí <strong>Tkinter</strong> a propojením s <strong>MySQL databází</strong>.</p>
+    
+        <h4>Hlavní funkce programu:</h4>
+        <ul>
+            <li><strong>Registrace a přihlášení hráčů</strong>: Program načítá údaje z MySQL databáze, kde sleduje počet her a výher hráče.</li>
+            <li><strong>Herní logika</strong>:
+                <ul>
+                    <li>Hra se hraje na <strong>3x3 hrací mřížce</strong>, která je reprezentována tlačítky.</li>
+                    <li>Hráč hraje s "X", počítač s "O".</li>
+                    <li>Po každém tahu se kontroluje, zda někdo vyhrál nebo zda nastala remíza.</li>
+                </ul>
+            </li>
+            <li><strong>Automatická hra počítače</strong>:
+                <ul>
+                    <li>Pokud je aktivován <strong>singleplayer</strong>, počítač provede tah náhodně.</li>
+                </ul>
+            </li>
+            <li><strong>Správa výsledků</strong>: Výhry a odehrané hry se aktualizují v databázi.</li>
+            <li><strong>Grafické rozhraní</strong>: Okno Tkinter obsahuje <strong>mřížku tlačítek</strong>, informační panel o hráči a tlačítko pro restart hry.</li>
+        </ul>
+        
+        <p>Program lze spustit pomocí funkce <code>run()</code>, která inicializuje herní smyčku Tkinter.</p>
     </div>
-
 </body>
 </html>
