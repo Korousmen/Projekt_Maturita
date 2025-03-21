@@ -70,19 +70,20 @@
 
     <div class="container">
         <h2>Registrace</h2>
-        <form action="/add_user" method="POST">
+        <form action="/register" method="POST">
             <label for="Uname">Uživatelské jméno:</label>
-            <input type="text" id="Uname" name="Uname" required>
-
+            <input type="text" id="Uname" name="username" required>
+    
             <label for="Email">Email:</label>
-            <input type="email" id="Email" name="Email" required>
-
+            <input type="email" id="Email" name="email" required>
+    
             <label for="Pass">Heslo:</label>
-            <input type="password" id="Pass" name="Pass" required>
-
+            <input type="password" id="Pass" name="password" required>
+    
             <button type="submit">Registrovat se</button>
         </form>
     </div>
+    
 
 </body>
 </html>
