@@ -3,15 +3,17 @@ import mysql.connector
 from tkinter import *
 
 def password_to_hash(plain_password):
+    """ Hashování hesla pomocí bcrypt. """
     try: 
         password_bytes = plain_password.encode('utf-8')
         hash = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
-        return hash.hex()
+        return hash.hex()  # Ukládáme jako HEX řetězec, protože MySQL neumí přímo pracovat s byte-array
     except Exception as e:
         print(f'Error při hashování hesla: {e}')
         return None
 
 def insert_regr_user(username, email, password):
+    """ Vloží nového uživatele do databáze. """
     try:
         connection = mysql.connector.connect(
             host='dbs.spskladno.cz',
@@ -33,8 +35,10 @@ def insert_regr_user(username, email, password):
         print(f'Obecná chyba: {e}')
     else:
         print('Uživatel úspěšně zaregistrován')
+        result_label['text'] = 'Registrace proběhla úspěšně'
 
 def get_hash_from_database(username):
+    """ Získá hash hesla z databáze na základě uživatelského jména. """
     try:
         connection = mysql.connector.connect(
             host='dbs.spskladno.cz',
@@ -61,6 +65,7 @@ def get_hash_from_database(username):
         return b''
 
 def login_authentication(username, password):
+    """ Ověří přihlašovací údaje uživatele. """
     try:
         hash = get_hash_from_database(username)
         password_byte = bytes(password, encoding='utf-8')
