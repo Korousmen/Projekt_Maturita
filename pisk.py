@@ -101,13 +101,14 @@ def restartGame():
     game_end = False
     updateBoard()
     titleLabel.config(text="Piškvorky")
-    update_player_info()  # Po restartu se opět aktualizuje info o hráči
+    update_player_info()  # Po restartu opět aktualizuj info o hráči
+
 
 def play(index):
     """Zpracuje kliknutí na hrací pole."""
     global turn, game_end
     if game_end or board[index] != " ":
-        return  # Pokud je hra ukončena nebo je pole obsazené, neprovádí se nic
+        return  # Pokud je hra ukončena nebo je pole obsazené, neprovádět nic
 
     board[index] = turn
     updateBoard()
@@ -136,6 +137,7 @@ def play(index):
     # Přepnutí hráče
     turn = "o" if turn == "x" else "x"
 
+    # Pokud je mód singleplayer, zahraje počítač
     if mode == "singlePlayer" and turn == "o":
         computer_move = random.choice([i for i in range(1, 10) if board[i] == " "])
         if computer_move:
@@ -156,9 +158,10 @@ def play(index):
                 cursor.execute('''UPDATE uziv SET pocet_her = pocet_her + 1 WHERE username = %s''', (singed_user,))
                 connection.commit()
                 return
-                    
+
             turn = "x"  # Přepnutí zpět na hráče
-                
+
+
 def run():
     """Spustí hlavní smyčku Tkinter."""
     root.mainloop()
