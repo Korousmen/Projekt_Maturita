@@ -43,5 +43,29 @@ def create2():
     conn.commit()
     conn.close()
 
+
+def insert_user_types():
+    conn = mysql.connector.connect(
+        host='dbs.spskladno.cz',
+        port=3306,
+        user='student8',
+        password='spsnet',
+        database='vyuka8'
+    )
+    cur = conn.cursor()
+    
+    cur.execute('''
+            INSERT INTO uziv_type (ID, user_type)
+            VALUES (%s, %s)
+        ''', (1, 'admin'))
+    cur.execute('''
+            INSERT INTO uziv_type (ID, user_type)
+            VALUES (%s, %s)
+        ''', (2, 'hrac'))
+    conn.commit()
+    conn.close()
+
+
 create()
 create2()
+insert_user_types()
